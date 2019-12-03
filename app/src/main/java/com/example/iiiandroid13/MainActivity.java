@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -32,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
 
+        webView.addJavascriptInterface(new MyJS(), "brad");
+
         webView.loadUrl("file:///android_asset/brad.html");
     }
 
@@ -48,5 +51,13 @@ public class MainActivity extends AppCompatActivity {
     public void test1(View view) {
         webView.loadUrl(
                 "javascript:test2(" + n.getText().toString() + ")");
+    }
+
+
+    public class MyJS {
+        @JavascriptInterface
+        public void callFromJS(String urname){
+            n.setText(urname);
+        }
     }
 }
